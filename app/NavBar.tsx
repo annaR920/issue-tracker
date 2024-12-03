@@ -33,7 +33,7 @@ const NavBar = () => {
                     </Link>)}
             </ul>   
         </nav>
-    ) 
+    )  
 }
 
 export default NavBar
