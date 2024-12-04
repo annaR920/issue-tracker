@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Issue {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255)
+  description String   @db.Text //For endless input
+  status      Status   @default(CLOSED) //Press ctrl-space to see staus options listed below (didn't work)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+//This is a set of constant values, need to be uppercase, 
+//on separate lines and no commas.
+//Note not all dbases support enum like mysql. (check prisma doc's)
+enum Status {
+  OPEN
+  IN_PROGRES
+  CLOSED
+}
