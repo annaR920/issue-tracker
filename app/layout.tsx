@@ -26,5 +26,5 @@ export default function RootLayout({
         </Theme>
       </body>
     </html>
-  )
+  ) 
 }
