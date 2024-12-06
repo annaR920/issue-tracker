@@ -14,7 +14,7 @@ model Issue {
   id          Int      @id @default(autoincrement())
   title       String   @db.VarChar(255)
   description String   @db.Text //For endless input
-  status      Status   @default(CLOSED) //Press ctrl-space to see staus options listed below (didn't work)
+  status      Status   @default(OPEN) //Press ctrl-space to see staus options listed below (didn't work)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
