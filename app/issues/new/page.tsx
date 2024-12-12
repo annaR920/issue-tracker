@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createIssueSchema } from '@/app/validationSchema';
 import { z } from 'zod';
+import ErrorMessage from '@/app/components/ErrorMessage';
 
 type IssueForm = z.infer<typeof createIssueSchema>; //zod now infer this a type of createIssueSchema
 
@@ -44,15 +45,15 @@ const NewIssuePage = () => {
           }
         })}>
 
-        {/*as="p" is to specify to wrap code inside a paragraph.*/}
         <TextField.Root placeholder='Title' {...register('title')}/>
-        {errors.title && <Text color="red" as="p"> {errors.title.message} </Text>} 
+        {/* Can remove conditions (E.g.{errors.title && ...} ) due to check added in ErrorMessage component */}
+        <ErrorMessage> {errors.title?.message} </ErrorMessage>
         <Controller 
             name="description" 
             control={control} 
             render={({field}) =>( <SimpleMDE placeholder="Description"  {...field}/> )} />
             
-        {errors.description && <Text color='red'as="p"> {errors.description.message}</Text>}                                                                                     
+        <ErrorMessage> {errors.description?.message} </ErrorMessage>                                                                                     
         <Button>Submit New Issue</Button>
     </form>
     </div>
