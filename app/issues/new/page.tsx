@@ -22,11 +22,22 @@ type IssueForm = z.infer<typeof createIssueSchema>; //zod now infer this a type 
 const NewIssuePage = () => {
   const router = useRouter();
   const {register, control, handleSubmit, formState:{ errors }} = useForm<IssueForm>({
-        resolver: zodResolver(createIssueSchema)}
-    );
+        resolver: zodResolver(createIssueSchema)});
   
   const [isSubmitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+
+  const onSubmit=handleSubmit(async (data) =>{
+          try{
+            setSubmitting(true);
+            await axios.post('/api/issues', data);
+            router.push('/issues')
+          }catch (error) {
+            setSubmitting(false);
+            setError('An unexpected error occurred.')
+            //console.log(error)
+          }
+        });
   //console.log(register('title'))
 
   return (
@@ -36,19 +47,7 @@ const NewIssuePage = () => {
         </Callout.Root>
         }
   
-    <form className=' space-y-3' 
-        onSubmit={handleSubmit(async (data) =>{
-          try{
-            setSubmitting(true);
-            await axios.post('/api/issues', data);
-            router.push('/issues')
-          }catch (error) {
-            setSubmitting(false);
-            setError('An unexpected error occurred.')
-            console.log(error)
-          }
-        })}>
-
+    <form className=' space-y-3' onSubmit={onSubmit} >
         <TextField.Root placeholder='Title' {...register('title')}/>
         {/* Can remove conditions (E.g.{errors.title && ...} ) due to check added in ErrorMessage component */}
         <ErrorMessage> {errors.title?.message} </ErrorMessage>
